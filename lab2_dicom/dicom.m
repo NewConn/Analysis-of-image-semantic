@@ -25,32 +25,35 @@ for x = 1:400
         pic_xoy(x,y) = value;
     end
 end
+figure
 imagesc(pic_xoy);
 
-pic_xoz = zeros(400);
+pic_xoz = zeros(400,dis_length);
 for x = 1:400
     for z = 1:dis_length
         value = 0;
         for i = 1:400
-            if im(x,z,i) > value
-                value = im(x,z,i);
+            if im(x,i,z) > value
+                value = im(x,i,z);
             end
         end
-        pic_xoy(x,z) = value;
+        pic_xoz(x,z) = value;
     end
 end
+figure
 imagesc(pic_xoz);
 
-pic_yoz = zeros(400);
+pic_yoz = zeros(400,dis_length);
 for y = 1:400
     for z = 1:dis_length
         value = 0;
         for i = 1:400
-            if im(y,z,i) > value
-                value = im(y,z,i);
+            if im(i,y,z) > value
+                value = im(i,y,z);
             end
         end
-        pic_xoy(y,z) = value;
+        pic_yoz(y,z) = value;
     end
 end
+figure
 imagesc(pic_yoz);

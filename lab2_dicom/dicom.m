@@ -2,7 +2,7 @@ clear all
 clc
 
 % read dicom image
-dis = dir('F:\code\dicom\picture\*.dcm');
+dis = dir('F:\code\dicom\picture\*.dcm');  
 dis_length = length(dis);
 im = zeros(400,400,dis_length);
 for i = 1:dis_length

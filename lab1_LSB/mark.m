@@ -2,61 +2,58 @@ clc
 clf
 clear
 
-%%%%%%%Ìí¼ÓË®Ó¡
 
-pic=imread('photo.jpg');%¶ÁÍ¼Æ¬
-icon=imread('ico.jpg');%¶ÁÍ¼±ê
-icon_bit=im2bw(icon); %¶şÖµ»¯
+pic=imread('photo.jpg'); %è¯»å›¾ç‰‡
+icon=imread('ico.jpg'); %è¯»å›¾æ ‡
+icon_bit=im2bw(icon); %äºŒå€¼åŒ–
 imwrite(icon_bit, 'icon_bit.jpg');
-
-[m,n,k] = size(pic);%¶ÁÍ¼Æ¬ÏñËØµã
-[x,y,z] = size(icon);%¶ÁÍ¼±êÏñËØµã
-
+ 
+[m,n,k] = size(pic); %è¯»å›¾ç‰‡åƒç´ ç‚¹
+[x,y,z] = size(icon); %è¯»å›¾æ ‡åƒç´ ç‚¹
+ 
 subplot(2,3,1);
 imshow(pic);
-title('(a)Ô­Í¼');
+title('(a) åŸåº•å›¾');
 subplot(2,3,2);
 imshow(icon);
-title('(b)Ô­Í¼±ê');
+title('(b) åŸæ°´å°å›¾');
 subplot(2,3,3);
 imshow(icon_bit);
-title('(c)¶şÖµ»¯Í¼±ê');
-
+title('(c) äºŒå€¼åŒ–æ°´å°å›¾');
+ 
 
 pic_zero=pic;
 std=254;
 for i=1:m
-    for j=1:n  %±éÀúÔ­Í¼ËùÓĞÏñËØµã
-        pic_zero(i,j,3)=bitand(pic_zero(i,j,3),std); %ºÍ254½øĞĞ¶ş½øÖÆµÄ°´Î»Óë£¬½«°ËÎ»¶ş½øÖÆÊı×îºóÒ»Î»ÖÃÁã
+for j=1:n  %éå†åŸå›¾æ‰€æœ‰åƒç´ ç‚¹      
+pic_zero(i,j,3)=bitand(pic_zero(i,j,3),std); %å’Œ254è¿›è¡ŒäºŒè¿›åˆ¶çš„æŒ‰ä½ä¸ï¼Œå°†å…«ä½äºŒè¿›åˆ¶æ•°æœ€åä¸€ä½ç½®é›¶
     end;
 end;
 imwrite(pic_zero, 'pic_zero.jpg');
 subplot(2,3,4);
 imshow(pic_zero);
-title('(d)Ô­Í¼ÖÃÁã');
-
+title('(d) æ¶ˆ0åº•å›¾');
+ 
 pic_add=pic_zero;
 for i=1:x
-    for j=1:y %¶ÔÖÃÁãºóÍ¼Æ¬½øĞĞÍ¼±ê´óĞ¡µÄ±éÀú
-        pic_add(x,y,3)=icon_bit(x,y);%½«Í¼±êµÄÊıÖµÌîĞ´µ½ÖÃÁãºóÍ¼Æ¬µÄ×îºóÒ»Î»
+    for j=1:y %å¯¹ç½®é›¶åå›¾ç‰‡è¿›è¡Œå›¾æ ‡å¤§å°çš„éå†
+        bitset(pic_add(x,y,3),1,mark_bit(x,y));%å°†å›¾æ ‡çš„æ•°å€¼å¡«å†™åˆ°ç½®é›¶åå›¾ç‰‡çš„æœ€åä¸€ä½
     end;
 end;
 imwrite(pic_add, 'pic_add.jpg');
 subplot(2,3,5);
 imshow(pic_add);
-title('(e)¼ÓÍ¼±êºóµÄÍ¼Æ¬');
-
-%%%%%%%ÌáÈ¡Ë®Ó¡
-
+title('(e) åŠ æ°´å°åº•å›¾');
+ 
+%%%%%%%æå–æ°´å° 
 pic_extract=icon_bit;
 for i=1:x
     for j=1:y
-        pic_extract(x,y)=0;%Í¼Æ¬ÇåÁã
-        pic_extract(x,y)=pic_add(x,y,3); %½«¼ÓË®Ó¡µÄÍ¼Æ¬µÄ×îºóÒ»Î»¸³¸øÒ»ÕÅ¿Õ°×Í¼
+        pic_extract(x,y)=0; %å›¾ç‰‡æ¸…é›¶
+        pic_extract(x,y)=bitget(pic_add(x,y,3),1);
     end;
 end;
 imwrite(pic_extract, 'pic_extract.jpg');
 subplot(2,3,6);
 imshow(pic_extract);
-title('(f)ÌáÈ¡µÄÍ¼±ê');
-        
+title('(f) æå–æ°´å°');
